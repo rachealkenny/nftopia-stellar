@@ -58,8 +58,8 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
-    "@nestjs/cli": "^7.6.0",
-    "@nestjs/schematics": "^7.3.1",
+    "@nestjs/cli": "^11.0.16",
+    "@nestjs/schematics": "^11.0.9",
     "@nestjs/testing": "^11.1.14",
     "@types/cache-manager": "^4.0.6",
     "@types/cache-manager-redis-store": "^2.0.4",
