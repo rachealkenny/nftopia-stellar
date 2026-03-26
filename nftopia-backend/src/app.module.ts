@@ -9,12 +9,14 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { NftModule } from './nft/nft.module';
 import { AuctionModule } from './modules/auction/auction.module';
+import { ListingModule } from './modules/listing/listing.module';
 import { OrderModule } from './modules/order/order.module';
 import { LoggerModule } from 'nestjs-pino';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { StorageModule } from './storage/storage.module';
 import { GraphqlGatewayModule } from './graphql/graphql.module';
+import { RedisRateGuard } from './common/guards/redis-rate.guard';
 
 @Module({
   imports: [
@@ -62,7 +64,7 @@ import { GraphqlGatewayModule } from './graphql/graphql.module';
       ? []
       : [
           TypeOrmModule.forRootAsync({
-            imports: [ConfigModule], // TypeOrm still needs imports
+            imports: [ConfigModule],
             inject: [ConfigService],
             useFactory: (config: ConfigService) => ({
               type: 'postgres',
@@ -84,6 +86,7 @@ import { GraphqlGatewayModule } from './graphql/graphql.module';
         ]),
     NftModule,
     AuctionModule,
+    ListingModule,
     OrderModule,
     StorageModule,
     GraphqlGatewayModule,
@@ -94,6 +97,10 @@ import { GraphqlGatewayModule } from './graphql/graphql.module';
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RedisRateGuard,
     },
   ],
 })
